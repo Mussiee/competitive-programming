@@ -1,36 +1,36 @@
 use std::collections::BTreeMap; 
 use std::cmp::max;
+use std::collections::VecDeque;
 impl Solution {
     pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {
         
-        let mut map = BTreeMap::new();
-        let mut b = k as usize; 
-        let mut ans: Vec<i32> = Vec::new();
+        let mut ans = Vec::new();  
 
+        let mut dq = VecDeque::new(); 
+        let (mut l , mut r) = (0, 0); 
 
-        while b > 0 { 
-            *map.entry(nums[b-1]).or_insert(0) += 1;
-            b -= 1; 
-        }
-        b = k as usize; 
-        let mut l = 0; 
-        ans.push(*map.iter().next_back().unwrap().0); 
-        
-        for val in b..nums.len() { 
-            *map.entry(nums[val]).or_insert(0) += 1; 
-            if let Some(x) = map.get_mut(&nums[l]) { 
-                if *x > 1 { 
-                    *x -= 1; 
-                }
-                else { 
-                    map.remove(&nums[l]);
-                }
+        while r < nums.len() { 
+            
+            //remvoe elements that are less than the current element from the dq
+            while dq.len() > 0 && nums[dq[dq.len()-1]] < nums[r] { 
+                dq.pop_back(); 
             }
-            l += 1; 
-            ans.push(*map.keys().next_back().unwrap()); 
+
+            //insert the element's index
+            dq.push_back(r);  
+
+            // check if the left element of the dq is out of bounds 
+            if (r - l)  >= (k-1) as usize { 
+                ans.push(nums[dq[0]]); 
+                 if dq[0] <= l {
+                    dq.pop_front(); 
+                 }
+
+                l += 1; 
+            }
+            
+            r += 1; 
         }
-
-
 
 
         ans
