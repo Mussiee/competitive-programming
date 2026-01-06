@@ -3,11 +3,14 @@ impl Solution {
 
         let (mut l, mut h) = (0, nums.len() - 1);         
 
-        while l < h { 
+        while l <= h { 
             let mid = l + (h - l) / 2; 
             
             if nums[mid] > target { 
-                h = mid;
+                if mid == 0 { 
+                    break; 
+                }
+                h = mid - 1;
             } else if nums[mid] < target {
 
                 l = mid + 1; 
