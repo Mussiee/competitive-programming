@@ -22,25 +22,29 @@ impl Solution {
 
         while let Some(ref node1) = list1 && let Some(ref node2) = list2 { 
             if node1.val <= node2.val { 
-                ans.next = Some(Box::new(ListNode::new(node1.val))); 
-                list1 = list1.unwrap().next;  
+                let mut head = list1.take().unwrap(); 
+                list1 = head.next.take(); 
+                ans.next = Some(head);  
                 ans = ans.next.as_mut().unwrap();  
             }else { 
-                ans.next = Some(Box::new(ListNode::new(node2.val))); 
-                list2 = list2.unwrap().next;  
+                let mut head = list2.take().unwrap(); 
+                list2 = head.next.take(); 
+                ans.next = Some(head);  
                 ans = ans.next.as_mut().unwrap();  
             }
             //println!("{:?}", .val); 
         }
-        while let Some(node1) = list1 { 
-            ans.next =  Some(Box::new(ListNode::new(node1.val))); 
-            list1 = node1.next; 
+        while let Some(ref node1) = list1 { 
+            let mut head = list1.take().unwrap(); 
+            list1 = head.next.take(); 
+            ans.next = Some(head);  
             ans = ans.next.as_mut().unwrap();  
         }
 
-        while let Some(node2) = list2 { 
-            ans.next = Some(Box::new(ListNode::new(node2.val))); 
-            list2 = node2.next;  
+        while let Some(ref node2) = list2 { 
+            let mut head = list2.take().unwrap(); 
+            list2 = head.next.take(); 
+            ans.next = Some(head);  
             ans = ans.next.as_mut().unwrap();  
         }
 
