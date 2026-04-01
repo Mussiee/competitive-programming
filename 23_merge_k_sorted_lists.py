@@ -18,12 +18,7 @@ class Solution:
             #        nm.append(temp.val)
                     nums.append(Wrapper(temp))
                     temp = temp.next
-                temp2 = lists[i]
-                temp = lists[i]
-                while temp: 
-                    temp = temp.next
-                    temp2.next = None
-                    temp2 = temp
+              
                     
         
         heapq.heapify(nums)
@@ -35,5 +30,7 @@ class Solution:
             nd = heapq.heappop(nums).node
             curr.next = nd 
             curr = curr.next
+        
+        curr.next = None
         
         return dummy.next
